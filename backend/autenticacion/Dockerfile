@@ -25,6 +25,7 @@ USER appuser
 # Exponer puerto
 EXPOSE 8000
 
+#se ocupa como framework flask
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
 
