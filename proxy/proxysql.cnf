@@ -14,20 +14,11 @@ mysql_variables=
     # NOTE: The password here is just a placeholder for ProxySQL's internal user management.
     # It doesn't have to match the real DB password but it's good practice.
     # ProxySQL will use the credentials defined in mysql_servers to connect to the backend.
-    users = (
-        {
-            username = "${MYSQL_USER:-appuser}"
-            password = "${MYSQL_PASSWORD:-password}"
-            default_hostgroup = 10 # Send traffic to the writer hostgroup by default
-        }
-    )
-
-    # Monitor credentials that ProxySQL uses to check server health
-    monitor_username = "${MYSQL_MONITOR_USER:-monitor_user}"
-    monitor_password = "${MYSQL_MONITOR_PASSWORD:-monitor_password}"
-    monitor_connect_timeout = 1000
+    monitor_username = "monitor_user"
+    monitor_password = "monitor_password"
+    monitor_connect_interval = 1000
     monitor_ping_timeout = 500
-    monitor_read_only_max_lag_ms = 20000
+    monitor_connect_timeout = 1000
 }
 
 # Backend MySQL server configuration
@@ -45,6 +36,22 @@ mysql_servers = (
         hostname = "db-slave"
         port = 3306
         weight = 100
+    }
+)
+
+# MySQL users configuration
+mysql_users = (
+    {
+        username = "appuser"
+        password = "password"
+        default_hostgroup = 10
+        active = 1
+    },
+    {
+        username = "monitor_user"
+        password = "monitor_password"
+        default_hostgroup = 10
+        active = 1
     }
 )
 
